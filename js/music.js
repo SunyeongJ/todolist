@@ -1,8 +1,8 @@
 // 1. This code loads the IFrame Player API code asynchronously.
 
 const VIDEO_ID = "yMZ0je45cqg";
-const playerBtn = document.querySelector("#playerBtn");
-const stopBtn = document.querySelector("#stopBtn");
+const playerBtn = document.getElementById("playerBtn");
+const stopBtn = document.getElementById("stopBtn");
 let playerStatus = false;
 
 var tag = document.createElement('script');
@@ -28,12 +28,10 @@ function toggleAudio() {
     player.playVideo();
     playerStatus = true;
     playerBtn.innerHTML = "⏸";
-    console.log(playerStatus);
   } else {
     player.pauseVideo();
     playerStatus = false;
     playerBtn.innerHTML = "▶";
-    console.log(playerStatus);
   } 
 };
 
