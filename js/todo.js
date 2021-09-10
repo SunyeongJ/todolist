@@ -16,7 +16,7 @@ function handleSubmit(e) {
   todos.push(newTodoObj);
   makeTodo(newTodoObj);
   saveTodo();
-};
+}
 
 function makeTodo(value) {
   const li = document.createElement("li");
@@ -40,52 +40,58 @@ function makeTodo(value) {
   delBtn.innerText = "delete"
   delBtn.addEventListener("click", deleteTodo);
   li.appendChild(delBtn);
-};
+}
 
 function deleteTodo(e) {
   const li = e.target.parentElement;
   todos = todos.filter(todo => todo.id !== parseInt(li.id));
   saveTodo();
   li.remove();
-};
+}
 
 function editTodo(e) {
   const span = e.target.previousSibling;
-  const btn = e.target;
-  let editor = document.createElement("input");
+  const btnAction = e.target.addEventListener("click", editTodoInput);
+  const editor = document.createElement("input");
   editor.type = "text";
-  if(span.childElementCount === 0) {
+
+  if(!span.childElementCount) {
     span.appendChild(editor);
   } else {
-    btn.addEventListener("click", editTodoInput);
+    btnAction;
   }
-};
+}
 
 function editTodoInput(e) {
   const li = e.target.parentElement;
   const span = e.target.previousSibling;
   const input = span.firstElementChild;
-  let text = span.innerText;
 
-  todos[todos.findIndex((e) => e.id === li.id)];
-  console.log(li.id);
-  console.log(todos);
-  input.remove();
+  todos[todos.findIndex((e) => e.id == li.id)].text = input.value;
+
+  saveTodo();
+  while (todoList.hasChildNodes()) {
+    todoList.removeChild(todoList.firstChild);
+  };
+  loadTodo();
 }
 
 function saveTodo() {
   localStorage.setItem(LOCAL_TODOS, JSON.stringify(todos));
-};
+}
+
+function loadTodo() {
+  const storedTodo = localStorage.getItem(LOCAL_TODOS);
+  if(storedTodo !== null) {
+    todos = JSON.parse(storedTodo);
+    todos.forEach(makeTodo);
+  }
+}
 
 todoForm.addEventListener("submit", handleSubmit);
+loadTodo();
 
-//refresh
-const storedTodo = localStorage.getItem(LOCAL_TODOS);
 
-if(storedTodo !== null) {
-  todos = JSON.parse(storedTodo);
-  todos.forEach(makeTodo);
-};
 
 
 
